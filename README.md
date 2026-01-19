@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Private Bank Proposal Generator
 
-# Run and deploy your AI Studio app
+這是一個專為私人銀行設計的提案產生器，使用 React, Vite 和 Tailwind CSS 構建。
 
-This contains everything you need to run your app locally.
+## 主要功能
+- **一鍵生成 PDF**: 使用 A4 標準排版，直接從瀏覽器列印成 PDF。
+- **雙情境分析**: 資本增值 (Scenario A) 與 被動收入 (Scenario B) 模擬。
+- **促銷計算**: 自動整合預繳利率與保費回贈。
+- **CI/CD**: 推送到 `main` 分支後自動部署至 GitHub Pages。
 
-View your app in AI Studio: https://ai.studio/apps/drive/1ALltNeLMlW_WduwQgPl6BDdu8lrVYkR0
+## 開發指南
 
-## Run Locally
+### 1. 安裝環境
+確保您的環境已安裝 Node.js。
+```bash
+npm install
+```
 
-**Prerequisites:**  Node.js
+> [!IMPORTANT]
+> 在 Windows 系統上如果遇到腳本執行限制，請使用：
+> `powershell -ExecutionPolicy Bypass -Command "npm install"`
 
+### 2. 本地開發
+啟動開發伺服器：
+```bash
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 3. 建置與部署
+建置專案：
+```bash
+npm run build
+```
+
+部署至 GitHub Pages：
+```bash
+npm run deploy
+```
+
+## CI/CD 設定
+本專案整合了 GitHub Actions。
+- 當程式碼推送到 `main` 分支時，會自動觸發 `.github/workflows/deploy.yml`。
+- **請務必在 GitHub Repository Settings 中設定 Secrets**: `GEMINI_API_KEY` 以確保 AI 功能正常運作。
+
+## 技術棧
+- **Frontend**: React 19, Vite, TypeScript
+- **Styling**: Tailwind CSS
+- **Deployment**: GitHub Actions, GitHub Pages

@@ -34,14 +34,14 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-full">
           {/* Left Column: Context/Info (Desktop only, hidden on result view if needed, but keeping for layout) */}
-          <div className={`hidden lg:block lg:col-span-4 space-y-6 ${viewMode === ViewMode.RESULT ? 'lg:hidden' : ''} no-print`}>
+          <div className={`hidden lg:block lg:col-span-3 space-y-6 ${viewMode === ViewMode.RESULT ? 'lg:hidden' : ''} no-print`}>
             <div className="bg-white rounded-lg shadow p-6 border-l-4 border-slate-900">
               <h3 className="text-lg font-bold text-slate-900 serif-font mb-2">Executive Summary</h3>
               <p className="text-sm text-slate-600 mb-4">
-                This tool assists Executive Directors in structuring high-net-worth wealth preservation proposals. 
+                This tool assists Executive Directors in structuring high-net-worth wealth preservation proposals.
                 It generates print-ready PDF reports with high-fidelity formatting specifically using the "Kelly Project" visual style.
               </p>
               <div className="border-t border-slate-200 pt-4">
@@ -62,7 +62,7 @@ const App: React.FC = () => {
                 </ul>
               </div>
             </div>
-            
+
             <div className="bg-slate-800 rounded-lg shadow p-6 text-white">
               <h3 className="text-lg font-bold serif-font mb-2 text-amber-500">System Status</h3>
               <div className="flex items-center justify-between text-sm mb-2">
@@ -77,18 +77,18 @@ const App: React.FC = () => {
           </div>
 
           {/* Right/Main Column: Form or Result */}
-          <div className={`${viewMode === ViewMode.RESULT ? 'col-span-12' : 'col-span-1 lg:col-span-8'}`}>
+          <div className={`${viewMode === ViewMode.RESULT ? 'col-span-12' : 'col-span-1 lg:col-span-9'}`}>
             {viewMode === ViewMode.FORM ? (
-              <InputForm 
-                data={formData} 
-                onChange={setFormData} 
+              <InputForm
+                data={formData}
+                onChange={setFormData}
                 onSubmit={handleGenerate}
               />
             ) : (
               <div className="h-[800px] lg:h-[calc(100vh-8rem)]">
-                <OutputDisplay 
-                  data={formData} 
-                  onBack={() => setViewMode(ViewMode.FORM)} 
+                <OutputDisplay
+                  data={formData}
+                  onBack={() => setViewMode(ViewMode.FORM)}
                 />
               </div>
             )}

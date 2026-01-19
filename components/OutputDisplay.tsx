@@ -46,14 +46,14 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
 
   // Replicating the TikZ design using SVG
   const Infographic = () => (
-    <div className="flex justify-center my-8">
+    <div className="flex justify-center my-12">
       <svg width="400" height="300" viewBox="-200 -150 400 300">
         <defs>
           <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
             <path d="M0,0 L0,6 L9,3 z" fill="#B8860B" />
           </marker>
         </defs>
-        
+
         {/* Connection Lines */}
         <line x1="0" y1="0" x2="0" y2="-100" stroke="#B8860B" strokeWidth="2" markerEnd="url(#arrow)" />
         <line x1="0" y1="0" x2="-86.6" y2="50" stroke="#B8860B" strokeWidth="2" markerEnd="url(#arrow)" />
@@ -88,13 +88,13 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
       <div className="bg-white px-6 py-4 border-b border-slate-300 flex justify-between items-center shadow-sm no-print">
         <h2 className="text-xl font-bold text-slate-800 serif-font">Report Preview</h2>
         <div className="flex space-x-3">
-          <button 
+          <button
             onClick={onBack}
             className="text-sm text-slate-600 hover:text-slate-900 px-4 py-2 rounded border border-slate-300 hover:bg-slate-100 transition-colors"
           >
             Edit Data
           </button>
-          <button 
+          <button
             onClick={handlePrint}
             className="text-sm font-medium text-white bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded shadow transition-colors flex items-center"
           >
@@ -103,40 +103,73 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
           </button>
         </div>
       </div>
-      
+
       {/* Visual Report Container - A4 Simulation */}
       <div className="flex-1 overflow-auto p-8 flex justify-center print:p-0 print:overflow-visible">
         {/* A4 Paper Dimensions: 210mm x 297mm */}
         <div className="print-container bg-white shadow-2xl mx-auto text-slate-900 relative flex flex-col" style={{ width: '210mm', minHeight: '297mm', padding: '20mm' }}>
-          
+
           {/* Header */}
-          <div className="border-b-2 border-amber-600 pb-4 mb-8 flex justify-between items-end">
+          <div className="border-b-2 border-amber-600/30 pb-6 mb-12 flex justify-between items-end">
             <div>
-              <h1 className="text-3xl font-bold serif-font text-slate-900">私人財富管理建議書</h1>
-              <p className="text-slate-500 text-sm mt-1 uppercase tracking-widest">Private Banking Division</p>
+              <h1 className="text-4xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: '"Bodoni Moda", serif', letterSpacing: '-0.02em' }}>
+                私人財富管理建議書
+              </h1>
+              <p className="text-slate-400 text-xs mt-2 uppercase tracking-[0.3em] font-medium">Bespoke Wealth Solutions</p>
             </div>
-            <div className="text-right">
-              <div className="text-amber-600 font-bold text-lg">PB</div>
-              <div className="text-xs text-slate-400">Generations of Trust</div>
+            <div className="text-right flex flex-col items-end">
+              <div className="w-12 h-12 bg-slate-900 flex items-center justify-center mb-2">
+                <span className="text-amber-500 font-serif text-2xl font-bold">PB</span>
+              </div>
+              <div className="text-[9px] text-slate-400 uppercase tracking-widest leading-none">Generations of Trust</div>
             </div>
           </div>
 
-          {/* Client Overview */}
-          <section className="mb-8">
-            <h2 className="text-xl font-bold text-slate-800 serif-font mb-4 border-l-4 border-amber-500 pl-3">
-              客戶概覽: {data.client.name}
-            </h2>
-            <p className="text-justify leading-relaxed text-slate-700 mb-6">
-              <span className="font-bold">尊貴的 {data.client.name} 閣下</span> (年齡: {data.client.age})，感謝您選擇我們的資產託管服務。
-              本建議書旨在為您展示「{data.planName}」如何協助您實現財富增值與靈活傳承，並有效進行地緣政治風險對沖。
-            </p>
-            
-            <div className="bg-slate-50 p-4 rounded border border-slate-100">
-              <p className="font-bold text-slate-900 mb-2">保費資訊:</p>
-              <ul className="list-disc list-inside text-slate-700 space-y-1">
-                <li>總保費: USD {formatMoney(data.premium.total)}</li>
-                <li>繳費方式: {data.premium.paymentType}</li>
-              </ul>
+          {/* Client Overview & Details */}
+          <section style={{ marginBottom: '56px' }}>
+            <div className="flex items-center space-x-4 mb-8">
+              <h2 className="text-2xl font-bold text-slate-900 shrink-0" style={{ fontFamily: '"Bodoni Moda", serif' }}>
+                客戶概覽與配置
+              </h2>
+              <div className="flex-1 border-t border-slate-100"></div>
+            </div>
+
+            <div className="space-y-8">
+              {/* Salutation */}
+              <p className="text-justify leading-[1.8] text-slate-700">
+                尊貴的 <span className="text-slate-900 font-bold underline decoration-amber-500/30 underline-offset-4">{data.client.name} 閣下</span>，感謝您選擇我們的資產託管服務。
+                本建議書旨在為您展示「<span className="font-semibold text-slate-900">{data.planName}</span>」如何協助您實現財富增值與靈活傳承，並有效進行地緣政治風險對沖。
+              </p>
+
+              {/* Data Table for Config */}
+              <div className="border-y border-slate-100 py-6">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-x-8">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                      <span className="text-xs text-slate-400 uppercase tracking-widest">客戶姓名</span>
+                      <span className="text-sm font-medium text-slate-800">{data.client.name}</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                      <span className="text-xs text-slate-400 uppercase tracking-widest">計劃名稱</span>
+                      <span className="text-sm font-medium text-slate-800">{data.planName}</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-8">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                      <span className="text-xs text-slate-400 uppercase tracking-widest">總保費金額</span>
+                      <span className="text-sm font-bold text-slate-900 tabular-nums">USD {formatMoney(data.premium.total)}</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                      <span className="text-xs text-slate-400 uppercase tracking-widest">繳費年期類型</span>
+                      <span className="text-sm font-medium text-slate-800">{data.premium.paymentType}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -144,7 +177,7 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
           <Infographic />
 
           {/* Scenario A Table */}
-          <section className="mb-8 break-inside-avoid">
+          <section className="break-inside-avoid" style={{ marginBottom: '64px' }}>
             <h2 className="text-xl font-bold text-slate-800 serif-font mb-4 border-l-4 border-amber-500 pl-3">
               情境 A: 資本累積 (Capital Accumulation)
             </h2>
@@ -152,36 +185,36 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
               <thead>
                 <tr className="bg-slate-800 text-white">
                   <th className="py-3 px-4 text-left">保單年度</th>
-                  <th className="py-3 px-4 text-right">退保價值 (USD)</th>
-                  <th className="py-3 px-4 text-right">身故賠償 (USD)</th>
-                  <th className="py-3 px-4 text-right">總回報率 (%)</th>
+                  <th className="py-3 px-4 table-header-right">退保價值 (USD)</th>
+                  <th className="py-3 px-4 table-header-right">身故賠償 (USD)</th>
+                  <th className="py-3 px-4 table-header-right">總回報率 (%)</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-slate-200 hover:bg-slate-50">
                   <td className="py-3 px-4 font-semibold">第 10 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year10.surrender)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year10.death)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioA.year10.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year10.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year10.death)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioA.year10.surrender)}</td>
                 </tr>
                 <tr className="border-b border-slate-200 hover:bg-slate-50 bg-slate-50/50">
                   <td className="py-3 px-4 font-semibold">第 20 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year20.surrender)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year20.death)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioA.year20.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year20.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year20.death)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioA.year20.surrender)}</td>
                 </tr>
                 <tr className="border-b border-slate-200 hover:bg-slate-50">
                   <td className="py-3 px-4 font-semibold">第 30 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year30.surrender)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioA.year30.death)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioA.year30.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year30.surrender)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioA.year30.death)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioA.year30.surrender)}</td>
                 </tr>
               </tbody>
             </table>
           </section>
 
           {/* Scenario B Table */}
-          <section className="mb-8 break-inside-avoid">
+          <section className="break-inside-avoid" style={{ marginBottom: '48px' }}>
             <h2 className="text-xl font-bold text-slate-800 serif-font mb-4 border-l-4 border-amber-500 pl-3">
               情境 B: 被動收入 (Passive Income)
             </h2>
@@ -192,53 +225,91 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
               <thead>
                 <tr className="bg-slate-800 text-white">
                   <th className="py-3 px-4 text-left">保單年度</th>
-                  <th className="py-3 px-4 text-right">累計提取 (USD)</th>
-                  <th className="py-3 px-4 text-right">剩餘價值 (USD)</th>
-                  <th className="py-3 px-4 text-right">總回報率 (%)</th>
+                  <th className="py-3 px-4 table-header-right">累計提取 (USD)</th>
+                  <th className="py-3 px-4 table-header-right">剩餘價值 (USD)</th>
+                  <th className="py-3 px-4 table-header-right">總回報率 (%)</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-slate-200 hover:bg-slate-50">
                   <td className="py-3 px-4 font-semibold">第 10 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year10.cumulative)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year10.remaining)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioB.year10.cumulative + data.scenarioB.year10.remaining)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year10.cumulative)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year10.remaining)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioB.year10.cumulative + data.scenarioB.year10.remaining)}</td>
                 </tr>
                 <tr className="border-b border-slate-200 hover:bg-slate-50 bg-slate-50/50">
                   <td className="py-3 px-4 font-semibold">第 20 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year20.cumulative)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year20.remaining)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioB.year20.cumulative + data.scenarioB.year20.remaining)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year20.cumulative)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year20.remaining)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioB.year20.cumulative + data.scenarioB.year20.remaining)}</td>
                 </tr>
                 <tr className="border-b border-slate-200 hover:bg-slate-50">
                   <td className="py-3 px-4 font-semibold">第 30 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year30.cumulative)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year30.remaining)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioB.year30.cumulative + data.scenarioB.year30.remaining)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year30.cumulative)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year30.remaining)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioB.year30.cumulative + data.scenarioB.year30.remaining)}</td>
                 </tr>
                 <tr className="border-b border-slate-200 hover:bg-slate-50 bg-slate-50/50">
                   <td className="py-3 px-4 font-semibold">第 40 年</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year40.cumulative)}</td>
-                  <td className="py-3 px-4 text-right">{formatMoney(data.scenarioB.year40.remaining)}</td>
-                  <td className="py-3 px-4 text-right font-medium text-amber-700">{getReturnRate(data.scenarioB.year40.cumulative + data.scenarioB.year40.remaining)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year40.cumulative)}</td>
+                  <td className="py-3 px-4 financial-number">{formatMoney(data.scenarioB.year40.remaining)}</td>
+                  <td className="py-3 px-4 financial-number font-medium text-amber-700">{getReturnRate(data.scenarioB.year40.cumulative + data.scenarioB.year40.remaining)}</td>
                 </tr>
               </tbody>
             </table>
           </section>
 
-           {/* Promotions */}
-           <section className="mb-auto">
-            <h2 className="text-xl font-bold text-slate-800 serif-font mb-4 border-l-4 border-amber-500 pl-3">
-              推廣優惠
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-50 p-4 border-t-2 border-slate-300">
-                 <div className="text-xs text-slate-500 uppercase font-bold mb-1">回贈優惠</div>
-                 <div className="text-slate-800 font-medium">{getRebateString()}</div>
+          {/* Promotions */}
+          <section style={{ marginBottom: '48px' }}>
+            <div className="flex items-center space-x-4 mb-8">
+              <h2 className="text-2xl font-bold text-slate-900 shrink-0" style={{ fontFamily: '"Bodoni Moda", serif' }}>
+                專屬推廣優惠
+              </h2>
+              <div className="flex-1 border-t border-slate-100"></div>
+            </div>
+
+            <div className="space-y-6">
+              {/* Premium Rebate */}
+              <div className="border-y border-slate-100 py-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                    <span className="text-xs text-slate-400 uppercase tracking-widest">Premium Rebate</span>
+                  </div>
+                  <span className="text-xs text-slate-400">保費回贈</span>
+                </div>
+                <div className="pl-5">
+                  <p style={{
+                    color: '#1e293b',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    display: 'block',
+                    minHeight: '24px'
+                  }}>
+                    一筆過 2%, 5年繳 10%
+                  </p>
+                </div>
               </div>
-              <div className="bg-slate-50 p-4 border-t-2 border-slate-300">
-                 <div className="text-xs text-slate-500 uppercase font-bold mb-1">預繳利率</div>
-                 <div className="text-slate-800 font-medium">{getPrepayString()} <span className="text-xs text-red-500 block sm:inline mt-1 sm:mt-0">{getPrepayDeadlineString()}</span></div>
+
+              {/* Prepayment Rate */}
+              <div className="border-y border-slate-100 py-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-1.5 h-1.5 bg-amber-500/40 rounded-full"></div>
+                    <span className="text-xs text-slate-400 uppercase tracking-widest">Prepayment Rate</span>
+                  </div>
+                  <span className="text-xs text-slate-400">預繳優惠利率</span>
+                </div>
+                <div className="pl-5">
+                  <p className="text-sm font-semibold text-slate-800">
+                    {getPrepayString()}
+                  </p>
+                  {getPrepayDeadlineString() && (
+                    <p className="text-xs text-slate-500 mt-1 italic">
+                      {getPrepayDeadlineString()}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </section>
@@ -249,7 +320,7 @@ export const OutputDisplay: React.FC<OutputDisplayProps> = ({ data, onBack }) =>
           </div>
 
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };

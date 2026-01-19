@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Noto Sans', 'Noto Sans TC', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.serif-font {
+  font-family: 'Noto Serif', 'Noto Sans TC', serif;
+}
+
+/* Financial Table Alignment */
+.financial-number {
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: right !important;
+}
+
+.table-header-right {
+  text-align: right !important;
+}
+
+/* Print Styles for PDF Generation */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    background: white;
+  }
+
+  #root>div {
+    min-height: auto;
+    background: white;
+  }
+
+  header,
+  .no-print {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .print-container {
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    height: auto !important;
+    /* Allow growth if content exceeds A4 */
+    padding: 20mm !important;
+    page-break-after: always;
+    overflow: visible !important;
+  }
+
+  /* Ensure background colors print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
